@@ -7,7 +7,7 @@ export const PaymentForm = () => {
     const formData = {};
     const required = (value) => (value ? undefined : "Required");
 
-    const hasClassIsInvalid = (meta, classOfInput = "form-control") => {
+    const getInputClass = (meta, classOfInput = "form-control") => {
         let classes = classOfInput;
 
         if (meta.error && meta.touched) {
@@ -40,7 +40,7 @@ export const PaymentForm = () => {
                                         <input
                                             {...input} type="text"
                                             placeholder="First Name"
-                                            className={hasClassIsInvalid(meta)}
+                                            className={getInputClass(meta)}
                                             id="validationFirstName"
                                         />
                                         <div className="invalid-feedback">{meta.error}</div>
@@ -58,7 +58,7 @@ export const PaymentForm = () => {
                                         <input
                                             {...input} type="text"
                                             placeholder="Last Name"
-                                            className={hasClassIsInvalid(meta)}
+                                            className={getInputClass(meta)}
                                             id="validationLastName"
                                         />
                                         <div className="invalid-feedback">{meta.error}</div>
@@ -76,7 +76,7 @@ export const PaymentForm = () => {
                                         <input
                                             {...input} type="text"
                                             placeholder="Country"
-                                            className={hasClassIsInvalid(meta)}
+                                            className={getInputClass(meta)}
                                             id="validationCountry"
                                         />
                                         <div className="invalid-feedback">{meta.error}</div>
@@ -94,7 +94,7 @@ export const PaymentForm = () => {
                                         <input
                                             {...input} type="text"
                                             placeholder="Address"
-                                            className={hasClassIsInvalid(meta)}
+                                            className={getInputClass(meta)}
                                             id="validationAddress"
                                         />
                                         <div className="invalid-feedback">{meta.error}</div>
@@ -111,7 +111,7 @@ export const PaymentForm = () => {
                                         <label form="validationCreditCard" className="form-label">Credit card</label>
                                         <input
                                             {...input} type="text"
-                                            className={hasClassIsInvalid(meta)}
+                                            className={getInputClass(meta)}
                                             id="validationCreditCard"
                                         />
                                         <div className="invalid-feedback">{meta.error}</div>
@@ -129,7 +129,7 @@ export const PaymentForm = () => {
                                         <input
                                             {...input} type="text"
                                             placeholder="CVV2"
-                                            className={hasClassIsInvalid(meta)}
+                                            className={getInputClass(meta)}
                                             id="validationCvv2Code"
                                         />
                                         <div className="invalid-feedback">{meta.error}</div>
@@ -146,7 +146,7 @@ export const PaymentForm = () => {
                                         <input
                                             {...input} type="text"
                                             placeholder="Email"
-                                            className={hasClassIsInvalid(meta)}
+                                            className={getInputClass(meta)}
                                             id="validationEmail"
                                         />
                                         <div className="invalid-feedback">{meta.error}</div>
@@ -165,7 +165,7 @@ export const PaymentForm = () => {
                                                 {...input}
                                                 type="checkbox"
                                                 value=""
-                                                className={hasClassIsInvalid(meta, "form-check-input")}
+                                                className={getInputClass(meta, "form-check-input")}
                                                 id="validationAgreement"
                                             />
                                             <label form="validationAgreement" className="form-check-label">Agree with terms of use</label>
