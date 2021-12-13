@@ -1,0 +1,11 @@
+.payment-form {
+  &__title {
+    text-align: center;
+    text-transform: capitalize;
+    margin-bottom: 20px;
+  }
+
+  &__submit {
+    padding: 10px;
+  }
+}
