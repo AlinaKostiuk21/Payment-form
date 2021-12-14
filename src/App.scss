@@ -3,12 +3,16 @@ body {
   color: white;
 }
 
+input {
+  text-align: center;
+}
+
 .payment-form {
   background-color: #101010;
   border: 2px solid white;
   border-radius: 15px;
   padding: 20px;
-  margin: 0 10px;
+  margin: 10px;
 
   &__title {
     text-align: center;
@@ -18,5 +22,16 @@ body {
 
   &__submit {
     padding: 10px;
+  }
+}
+
+.form-results {
+  background-color: #101010;
+  border: 2px solid white;
+  border-radius: 15px;
+  padding: 5px 10px;
+
+  &__code {
+    color: white;
   }
 }
