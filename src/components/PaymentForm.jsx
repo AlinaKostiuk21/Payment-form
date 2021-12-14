@@ -187,6 +187,7 @@ export const PaymentForm = () => {
                             <Field
                                 name="agreement"
                                 validate={required}
+                                type="checkbox"
                             >
                                 {({input, meta}) => (
                                     <div className="col-md-12">
