@@ -1,5 +1,6 @@
 import {Form, Field} from "react-final-form";
 import {useState} from "react";
+import "./PaymentForm.scss";
 
 export const PaymentForm = () => {
     const [formResults, setFormResults] = useState("");
