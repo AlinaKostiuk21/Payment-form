@@ -1,14 +1,18 @@
 import { Form, Field } from "react-final-form";
 
 export const PaymentForm = () => {
-    const onSubmit = (values) => {
-        window.alert(JSON.stringify(values, 0, 2));
-    };
     const formData = {};
+    const onSubmit = (values, form) => {
+        window.alert(JSON.stringify(values, 0, 2));
+        form.restart();
+    };
     //Validators
     const required = (value) => (value ? undefined : "Please fill out this field");
     const mustBeString = (value) => (value.match(/^[A-Za-z]+$/) ? undefined : "Please input alphabet characters only");
     const mustBeNumber = (value) => (isNaN(value) ? "Must be a number" : undefined);
+    const mustBeLength16 = (value) => ((value.length === 16) ? undefined : "Must be 16 digits");
+    const mustBeLength3 = (value) => ((value.length === 3) ? undefined : "Must be 3 digits");
+    const validateEmail = (value) => (((/\S+@\S+\.\S+/).test(value)) ? undefined : "Must be valid email")
     const composeValidators = (...validators) => (value) => {
         return validators.reduce((error, validator) => error || validator(value), undefined);
     }
@@ -32,8 +36,10 @@ export const PaymentForm = () => {
                     initialValues={formData}
                     render={({ handleSubmit, form, submitting, pristine, values }) => (
                         <form
+                            method="POST"
+                            action="https://httpbin.org/post"
                             onSubmit={handleSubmit}
-                            className="row g-3 needs-validation"
+                            className="row g-3 needs-validation payment-form__form"
                             novalidate
                         >
                             <Field
@@ -42,12 +48,13 @@ export const PaymentForm = () => {
                             >
                                 {({ input, meta }) => (
                                     <div className="col-md-6">
-                                        <label form="validationFirstName" className="form-label">First Name</label>
+                                        <label form="validationFirstName" className="form-label">First Name*</label>
                                         <input
                                             {...input} type="text"
                                             placeholder="First Name"
                                             className={getInputClass(meta)}
                                             id="validationFirstName"
+                                            autoComplete="off"
                                         />
                                         <div className="invalid-feedback">{meta.error}</div>
                                     </div>
@@ -56,16 +63,17 @@ export const PaymentForm = () => {
 
                             <Field
                                 name="lastName"
-                                validate={required}
+                                validate={composeValidators(required, mustBeString)}
                             >
                                 {({ input, meta }) => (
                                     <div className="col-md-6">
-                                        <label form="validationLastName" className="form-label">Last Name</label>
+                                        <label form="validationLastName" className="form-label">Last Name*</label>
                                         <input
                                             {...input} type="text"
                                             placeholder="Last Name"
                                             className={getInputClass(meta)}
                                             id="validationLastName"
+                                            autoComplete="off"
                                         />
                                         <div className="invalid-feedback">{meta.error}</div>
                                     </div>
@@ -74,16 +82,17 @@ export const PaymentForm = () => {
 
                             <Field
                                 name="country"
-                                validate={required}
+                                validate={composeValidators(required, mustBeString)}
                             >
                                 {({ input, meta }) => (
                                     <div className="col-md-6">
-                                        <label form="validationCountry" className="form-label">Country</label>
+                                        <label form="validationCountry" className="form-label">Country*</label>
                                         <input
                                             {...input} type="text"
                                             placeholder="Country"
                                             className={getInputClass(meta)}
                                             id="validationCountry"
+                                            autoComplete="off"
                                         />
                                         <div className="invalid-feedback">{meta.error}</div>
                                     </div>
@@ -92,16 +101,17 @@ export const PaymentForm = () => {
 
                             <Field
                                 name="address"
-                                validate={required}
+                                validate={composeValidators(required)}
                             >
                                 {({ input, meta }) => (
                                     <div className="col-md-6">
-                                        <label form="validationAddress" className="form-label">Address</label>
+                                        <label form="validationAddress" className="form-label">Address*</label>
                                         <input
                                             {...input} type="text"
                                             placeholder="Address"
                                             className={getInputClass(meta)}
                                             id="validationAddress"
+                                            autoComplete="off"
                                         />
                                         <div className="invalid-feedback">{meta.error}</div>
                                     </div>
@@ -110,17 +120,18 @@ export const PaymentForm = () => {
 
                             <Field
                                 name="creditCard"
-                                validate={composeValidators(required, mustBeNumber)}
+                                validate={composeValidators(required, mustBeNumber, mustBeLength16)}
                             >
                                 {({ input, meta }) => (
                                     <div className="col-md-10">
-                                        <label form="validationCreditCard" className="form-label">Credit Card</label>
+                                        <label form="validationCreditCard" className="form-label">Credit Card*</label>
                                         <input
                                             {...input} type="text"
                                             maxLength="16"
                                             placeholder="XXXX XXXX XXXX XXXX"
                                             className={getInputClass(meta)}
                                             id="validationCreditCard"
+                                            autoComplete="off"
                                         />
                                         <div className="invalid-feedback">{meta.error}</div>
                                     </div>
@@ -129,17 +140,18 @@ export const PaymentForm = () => {
 
                             <Field
                                 name="cvv2Code"
-                                validate={required}
+                                validate={composeValidators(required, mustBeNumber, mustBeLength3)}
                             >
                                 {({ input, meta }) => (
                                     <div className="col-md-2">
-                                        <label form="validationCvv2Code" className="form-label">CVV2</label>
+                                        <label form="validationCvv2Code" className="form-label">CVV2*</label>
                                         <input
                                             {...input} type="password"
                                             maxLength="3"
                                             placeholder="CVV2"
                                             className={getInputClass(meta)}
                                             id="validationCvv2Code"
+                                            autoComplete="off"
                                         />
                                         <div className="invalid-feedback">{meta.error}</div>
                                     </div>
@@ -148,12 +160,13 @@ export const PaymentForm = () => {
 
                             <Field
                                 name="email"
+                                validate={composeValidators(validateEmail)}
                             >
                                 {({ input, meta }) => (
                                     <div className="col-md-12">
                                         <label form="validationEmail" className="form-label">Email for a receipt</label>
                                         <input
-                                            {...input} type="email"
+                                            {...input} type="text"
                                             placeholder="Email"
                                             className={getInputClass(meta)}
                                             id="validationEmail"
@@ -170,15 +183,18 @@ export const PaymentForm = () => {
                                 {({ input, meta }) => (
                                     <div className="col-md-12">
                                         <div className="form-check">
-                                            <input
-                                                {...input}
-                                                type="checkbox"
-                                                value=""
-                                                className={getInputClass(meta, "form-check-input")}
-                                                id="validationAgreement"
-                                            />
-                                            <label form="validationAgreement" className="form-check-label">Agree with terms of use</label>
-                                            <div className="invalid-feedback">You must agree before submitting.</div>
+                                            <label form="validationAgreement" className="form-check-label">
+                                                <input
+                                                    {...input}
+                                                    type="checkbox"
+                                                    value=""
+                                                    className={getInputClass(meta, "form-check-input")}
+                                                    id="validationAgreement"
+                                                />
+                                                Agree with terms of use
+                                                <div className="invalid-feedback">You must agree before submitting.</div>
+                                            </label>
+
                                         </div>
                                     </div>
                                 )}
