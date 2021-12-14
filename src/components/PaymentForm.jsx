@@ -28,8 +28,8 @@ export const PaymentForm = () => {
     }
 
     return (
-        <div className="payment-form vh-100 d-flex justify-content-center align-items-center">
-            <div className="container col-md-6">
+        <div className="vh-100 d-flex justify-content-center align-items-center">
+            <div className="payment-form container col-md-6">
                 <h2 className="payment-form__title">Payment form</h2>
                 <Form
                     onSubmit={onSubmit}
@@ -191,7 +191,7 @@ export const PaymentForm = () => {
                             <div className="d-grid gap-2 text-align-center">
                                 <button
                                     type="submit"
-                                    className="btn btn-primary payment-form__submit"
+                                    className="btn btn-success payment-form__submit"
                                 >
                                     Pay
                                 </button>
