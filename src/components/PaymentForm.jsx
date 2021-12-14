@@ -6,6 +6,16 @@ export const PaymentForm = () => {
     };
     const formData = {};
     const required = (value) => (value ? undefined : "Required");
+    const mustBeString = (value) => {
+        const matchPattern = value.match(/[a-zA-Z]/s);
+        if (matchPattern === null) {
+            return ("Must not contain numbers");
+        }
+    }
+
+    const composeValidators = (...validators) => (value) => {
+        return validators.reduce((error, validator) => error || validator(value), undefined);
+    }
 
     const getInputClass = (meta, classOfInput = "form-control") => {
         let classes = classOfInput;
@@ -32,7 +42,7 @@ export const PaymentForm = () => {
                         >
                             <Field
                                 name="firstName"
-                                validate={required}
+                                validate={composeValidators(required, mustBeString)}
                             >
                                 {({ input, meta }) => (
                                     <div className="col-md-6">
@@ -108,9 +118,11 @@ export const PaymentForm = () => {
                             >
                                 {({ input, meta }) => (
                                     <div className="col-md-10">
-                                        <label form="validationCreditCard" className="form-label">Credit card</label>
+                                        <label form="validationCreditCard" className="form-label">Credit Card</label>
                                         <input
                                             {...input} type="text"
+                                            maxLength="16"
+                                            placeholder="XXXX XXXX XXXX XXXX"
                                             className={getInputClass(meta)}
                                             id="validationCreditCard"
                                         />
@@ -128,6 +140,7 @@ export const PaymentForm = () => {
                                         <label form="validationCvv2Code" className="form-label">CVV2</label>
                                         <input
                                             {...input} type="text"
+                                            maxLength="3"
                                             placeholder="CVV2"
                                             className={getInputClass(meta)}
                                             id="validationCvv2Code"
@@ -144,7 +157,7 @@ export const PaymentForm = () => {
                                     <div className="col-md-12">
                                         <label form="validationEmail" className="form-label">Email for a receipt</label>
                                         <input
-                                            {...input} type="text"
+                                            {...input} type="email"
                                             placeholder="Email"
                                             className={getInputClass(meta)}
                                             id="validationEmail"
