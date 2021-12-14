@@ -5,18 +5,14 @@ export const PaymentForm = () => {
         window.alert(JSON.stringify(values, 0, 2));
     };
     const formData = {};
-    const required = (value) => (value ? undefined : "Required");
-    const mustBeString = (value) => {
-        const matchPattern = value.match(/[a-zA-Z]/s);
-        if (matchPattern === null) {
-            return ("Must not contain numbers");
-        }
-    }
-
+    //Validators
+    const required = (value) => (value ? undefined : "Please fill out this field");
+    const mustBeString = (value) => (value.match(/^[A-Za-z]+$/) ? undefined : "Please input alphabet characters only");
+    const mustBeNumber = (value) => (isNaN(value) ? "Must be a number" : undefined);
     const composeValidators = (...validators) => (value) => {
         return validators.reduce((error, validator) => error || validator(value), undefined);
     }
-
+    //Classes
     const getInputClass = (meta, classOfInput = "form-control") => {
         let classes = classOfInput;
 
@@ -114,7 +110,7 @@ export const PaymentForm = () => {
 
                             <Field
                                 name="creditCard"
-                                validate={required}
+                                validate={composeValidators(required, mustBeNumber)}
                             >
                                 {({ input, meta }) => (
                                     <div className="col-md-10">
@@ -139,7 +135,7 @@ export const PaymentForm = () => {
                                     <div className="col-md-2">
                                         <label form="validationCvv2Code" className="form-label">CVV2</label>
                                         <input
-                                            {...input} type="text"
+                                            {...input} type="password"
                                             maxLength="3"
                                             placeholder="CVV2"
                                             className={getInputClass(meta)}
